@@ -1,18 +1,32 @@
 :root {
-  --bg: #0d1117;
-  --surface: #161b22;
-  --surface2: #1e2530;
-  --border: #30363d;
-  --gold: #c9a84c;
+  /* ── Latar & Permukaan ── */
+  --bg: #0b1623;         /* Biru gelap tinta mushaf */
+  --surface: #122033;    /* Permukaan card utama */
+  --surface2: #1a2d44;   /* Permukaan dalam (select, box) */
+  --border: #2a4060;     /* Garis batas */
+
+  /* ── Aksen Utama: Hijau Zamrud Islami ── */
+  --emerald: #2ecc8a;
+  --emerald-light: #4ddba0;
+  --emerald-dim: rgba(46,204,138,0.13);
+  --emerald-border: rgba(46,204,138,0.28);
+
+  /* ── Aksen Sekunder: Emas Ornamental ── */
+  --gold: #d4a843;
   --gold-light: #f0c060;
-  --gold-dim: rgba(201,168,76,0.15);
-  --gold-border: rgba(201,168,76,0.3);
-  --green: #3fb950;
-  --green-dim: rgba(63,185,80,0.15);
-  --red: #f85149;
-  --red-dim: rgba(248,81,73,0.15);
-  --text: #e6edf3;
-  --muted: #8b949e;
+  --gold-dim: rgba(212,168,67,0.14);
+  --gold-border: rgba(212,168,67,0.32);
+
+  /* ── Benar / Salah ── */
+  --green: #2ecc8a;
+  --green-dim: rgba(46,204,138,0.15);
+  --red: #e05252;
+  --red-dim: rgba(224,82,82,0.15);
+
+  /* ── Teks ── */
+  --text: #eef3f8;       /* Ivory / krem lembut */
+  --muted: #7a9bb5;      /* Abu biru redup */
+
   --radius: 14px;
 }
 
@@ -34,7 +48,7 @@ body::before {
   top: -200px; left: 50%;
   transform: translateX(-50%);
   width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(46,204,138,0.08) 0%, rgba(212,168,67,0.04) 55%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -198,8 +212,8 @@ body::before {
 .start-btn {
   width: 100%;
   max-width: 480px;
-  background: var(--gold);
-  color: #000;
+  background: linear-gradient(135deg, var(--emerald) 0%, #27b579 100%);
+  color: #04150f;
   border: none;
   border-radius: var(--radius);
   padding: 17px 28px;
@@ -213,12 +227,13 @@ body::before {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-shadow: 0 4px 18px rgba(46,204,138,0.2);
 }
 
 .start-btn:hover {
-  background: var(--gold-light);
+  background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald) 100%);
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(201,168,76,0.3);
+  box-shadow: 0 10px 28px rgba(46,204,138,0.35);
 }
 
 .start-btn:active { transform: translateY(0); }
@@ -247,8 +262,8 @@ body::before {
 }
 
 .back-btn:hover {
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--emerald);
+  color: var(--emerald);
 }
 
 /* Stats bar */
@@ -280,7 +295,7 @@ body::before {
   margin-bottom: 2px;
 }
 
-.stat-chip.correct span { color: var(--green); }
+.stat-chip.correct span { color: var(--emerald); }
 .stat-chip.wrong span   { color: var(--red); }
 .stat-chip.streak span  { color: var(--gold); }
 
@@ -298,9 +313,9 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: var(--gold-dim);
-  border: 1px solid var(--gold-border);
-  color: var(--gold);
+  background: var(--emerald-dim);
+  border: 1px solid var(--emerald-border);
+  color: var(--emerald);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -354,8 +369,8 @@ body::before {
 }
 
 .option-btn:hover:not(:disabled) {
-  border-color: var(--gold);
-  background: var(--gold-dim);
+  border-color: var(--emerald);
+  background: var(--emerald-dim);
   transform: translateY(-1px);
 }
 
@@ -374,12 +389,12 @@ body::before {
 }
 
 .option-btn.correct {
-  border-color: var(--green);
-  background: var(--green-dim);
+  border-color: var(--emerald);
+  background: var(--emerald-dim);
   animation: correctPulse 0.35s ease;
 }
 .option-btn.correct .option-letter {
-  background: var(--green); color: #000; border-color: var(--green);
+  background: var(--emerald); color: #04150f; border-color: var(--emerald);
 }
 
 .option-btn.wrong {
@@ -412,7 +427,7 @@ body::before {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(13,17,23,0.88);
+  background: rgba(8,17,32,0.92);
   backdrop-filter: blur(8px);
   z-index: 200;
   align-items: flex-end;
@@ -481,12 +496,12 @@ body::before {
 .rab-answer {
   font-size: 0.9rem;
   font-weight: 700;
-  color: var(--green);
+  color: var(--emerald);
 }
 
 .try-again-btn {
-  background: var(--gold);
-  color: #000;
+  background: linear-gradient(135deg, var(--emerald) 0%, #27b579 100%);
+  color: #04150f;
   border: none;
   border-radius: 10px;
   padding: 15px 28px;
@@ -498,12 +513,13 @@ body::before {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(46,204,138,0.2);
 }
 
 .try-again-btn:hover {
-  background: var(--gold-light);
+  background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald) 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(201,168,76,0.3);
+  box-shadow: 0 8px 22px rgba(46,204,138,0.35);
 }
 
 /* ─── CONFETTI ─── */
