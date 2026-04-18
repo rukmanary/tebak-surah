@@ -13,9 +13,14 @@ function buildSelects() {
   const endSelect   = document.getElementById('endSelect');
 
   SURAHS.forEach((surah, idx) => {
-    const opt = `<option value="${idx}">${surah.number}. ${surah.latin}</option>`;
-    startSelect.innerHTML += opt;
-    endSelect.innerHTML   += opt;
+    const makeOpt = () => {
+      const opt = document.createElement('option');
+      opt.value = idx;
+      opt.textContent = `${surah.number}. ${surah.latin}`;
+      return opt;
+    };
+    startSelect.appendChild(makeOpt());
+    endSelect.appendChild(makeOpt());
   });
 
   endSelect.value = SURAHS.length - 1;
@@ -100,35 +105,54 @@ function generateQuestion() {
   let questionText, options;
 
   if (qType === 0) {
-    questionText = `Surat <strong>${correct.latin}</strong> adalah surat ke-...`;
-    const dist   = pickDistractors(correctIdx, 3).map(s => ({ val: s.number, display: String(s.number), isCorrect: false }));
-    options      = shuffle([{ val: correct.number, display: String(correct.number), isCorrect: true }, ...dist]);
+    const dist = pickDistractors(correctIdx, 3).map(s => ({ val: s.number, display: String(s.number), isCorrect: false }));
+    options    = shuffle([{ val: correct.number, display: String(correct.number), isCorrect: true }, ...dist]);
   } else {
-    questionText = `Surat ke-<strong>${correct.number}</strong> adalah...`;
-    const dist   = pickDistractors(correctIdx, 3).map(s => ({ val: s.latin, display: s.latin, isCorrect: false }));
-    options      = shuffle([{ val: correct.latin, display: correct.latin, isCorrect: true }, ...dist]);
+    const dist = pickDistractors(correctIdx, 3).map(s => ({ val: s.latin, display: s.latin, isCorrect: false }));
+    options    = shuffle([{ val: correct.latin, display: correct.latin, isCorrect: true }, ...dist]);
   }
 
   currentQ = { correctIdx, qType, options };
 
-  document.getElementById('qTypeBadge').textContent    = qType === 0 ? '🔢 Tebak Nomor' : '📜 Tebak Nama';
-  document.getElementById('questionText').innerHTML    = questionText;
-  document.getElementById('questionSub').textContent   = 'Pilih jawaban yang paling tepat';
+  // ── Render question text safely (no innerHTML with dynamic data) ──
+  document.getElementById('qTypeBadge').textContent  = qType === 0 ? '🔢 Tebak Nomor' : '📜 Tebak Nama';
+  const qTextEl = document.getElementById('questionText');
+  qTextEl.textContent = '';
+  if (qType === 0) {
+    qTextEl.append('Surat ');
+    const strong = document.createElement('strong');
+    strong.textContent = correct.latin;
+    qTextEl.append(strong);
+    qTextEl.append(' adalah surat ke-...');
+  } else {
+    qTextEl.append('Surat ke-');
+    const strong = document.createElement('strong');
+    strong.textContent = correct.number;
+    qTextEl.append(strong);
+    qTextEl.append(' adalah...');
+  }
+  document.getElementById('questionSub').textContent = 'Pilih jawaban yang paling tepat';
 
   const s = SURAHS[startIdx];
   const e = SURAHS[endIdx];
-  document.getElementById('progressText').textContent  =
-    `Rentang: ${s.number}. ${s.latin} — ${e.number}. ${e.latin}`;
 
   const letters = ['A', 'B', 'C', 'D'];
   const grid    = document.getElementById('optionsGrid');
-  grid.innerHTML = '';
+  grid.textContent = ''; // clear tanpa innerHTML
 
   options.forEach((opt, i) => {
-    const btn       = document.createElement('button');
-    btn.className   = 'option-btn';
-    btn.innerHTML   = `<span class="option-letter">${letters[i]}</span>${opt.display}`;
-    btn.onclick     = () => handleAnswer(btn, opt.isCorrect);
+    const btn        = document.createElement('button');
+    btn.className    = 'option-btn';
+
+    const letterSpan = document.createElement('span');
+    letterSpan.className = 'option-letter';
+    letterSpan.textContent = letters[i];         // ✅ textContent, bukan innerHTML
+
+    const label = document.createTextNode(opt.display); // ✅ createTextNode, auto-escape
+
+    btn.appendChild(letterSpan);
+    btn.appendChild(label);
+    btn.addEventListener('click', () => handleAnswer(btn, opt.isCorrect));
     grid.appendChild(btn);
   });
 
@@ -229,11 +253,11 @@ function clearConfetti() {
   document.getElementById('confettiContainer').innerHTML = '';
 }
 
-// ── EXPOSE HANDLERS ke HTML (inline onclick) ──
-window.onRangeChange  = onRangeChange;
-window.startQuiz      = startQuiz;
-window.goHome         = goHome;
-window.nextQuestion   = nextQuestion;
-
 // ── INIT ──
+// Event wiring via addEventListener (tidak ada inline onclick di HTML)
 buildSelects();
+document.getElementById('startSelect').addEventListener('change', onRangeChange);
+document.getElementById('endSelect').addEventListener('change', onRangeChange);
+document.getElementById('startBtn').addEventListener('click', startQuiz);
+document.getElementById('backBtn').addEventListener('click', goHome);
+document.getElementById('tryAgainBtn').addEventListener('click', nextQuestion);

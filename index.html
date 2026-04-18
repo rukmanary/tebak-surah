@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self';
+             script-src 'self';
+             style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+             font-src https://fonts.gstatic.com;
+             img-src 'self' data:;
+             connect-src 'none';">
   <meta name="theme-color" content="#0b1623">
   <title>Hafalan Nama-nama Surat di Al-Qur'an</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,17 +31,17 @@
     <div class="range-row">
       <div class="select-wrap">
         <label>Mulai dari</label>
-        <select id="startSelect" onchange="onRangeChange()"></select>
+        <select id="startSelect"></select>
       </div>
       <div class="select-wrap">
         <label>Sampai</label>
-        <select id="endSelect" onchange="onRangeChange()"></select>
+        <select id="endSelect"></select>
       </div>
     </div>
     <div class="range-summary" id="rangeSummary">—</div>
   </div>
 
-  <button class="start-btn" onclick="startQuiz()">
+  <button class="start-btn" id="startBtn">
     ✨ Bismillah, Mulai!
   </button>
 </div>
@@ -42,7 +49,7 @@
 <!-- ═══════ QUIZ PAGE ═══════ -->
 <div class="page" id="quizPage">
 
-  <button class="back-btn" onclick="goHome()">← Kembali ke Beranda</button>
+  <button class="back-btn" id="backBtn">← Kembali ke Beranda</button>
 
   <div class="page-header" style="margin-bottom: 18px;">
     <h1 class="page-title">Hafalan Nama-nama Surat<br>di Al-Qur'an</h1>
@@ -61,7 +68,6 @@
     <div class="question-sub" id="questionSub">Pilih jawaban yang paling tepat</div>
     <div class="options-grid" id="optionsGrid"></div>
     <hr class="card-divider">
-    <div class="progress-text" id="progressText">—</div>
   </div>
 
 </div>
@@ -76,7 +82,7 @@
       <div class="rab-label">Jawaban Benar</div>
       <div class="rab-answer" id="correctAnswerText"></div>
     </div>
-    <button class="try-again-btn" onclick="nextQuestion()">✨ Test Lagi</button>
+    <button class="try-again-btn" id="tryAgainBtn">✨ Test Lagi</button>
   </div>
 </div>
 
