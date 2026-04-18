@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Hafalan Nama-nama Surat di Al-Qur'an</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════ HOME PAGE ═══════ -->
+<div class="page active" id="homePage">
+  <div class="page-header">
+    <span class="home-ornament">📖</span>
+    <div class="arabic-title">بِسْمِ اللّٰهِ</div>
+    <h1 class="page-title">Hafalan Nama-nama Surat<br>di Al-Qur'an</h1>
+    <p class="page-desc">Baca <em>bismillah</em> terlebih dahulu sebelum mulai</p>
+  </div>
+
+  <div class="range-card">
+    <div class="range-card-title">📚 Pilih Rentang Surat</div>
+    <div class="range-row">
+      <div class="select-wrap">
+        <label>Mulai dari</label>
+        <select id="startSelect" onchange="onRangeChange()"></select>
+      </div>
+      <div class="select-wrap">
+        <label>Sampai</label>
+        <select id="endSelect" onchange="onRangeChange()"></select>
+      </div>
+    </div>
+    <div class="range-summary" id="rangeSummary">—</div>
+  </div>
+
+  <button class="start-btn" onclick="startQuiz()">
+    ✨ Bismillah, Mulai!
+  </button>
+</div>
+
+<!-- ═══════ QUIZ PAGE ═══════ -->
+<div class="page" id="quizPage">
+
+  <button class="back-btn" onclick="goHome()">← Kembali ke Beranda</button>
+
+  <div class="page-header" style="margin-bottom: 18px;">
+    <h1 class="page-title">Hafalan Nama-nama Surat<br>di Al-Qur'an</h1>
+    <p class="page-desc" id="quizRangeDesc">Soal acak dari rentang ...</p>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-chip correct"><span id="statCorrect">0</span>Benar</div>
+    <div class="stat-chip wrong"><span id="statWrong">0</span>Salah</div>
+    <div class="stat-chip streak"><span id="statStreak">0</span>Streak 🔥</div>
+  </div>
+
+  <div class="quiz-card" id="quizCard">
+    <div class="q-type-badge" id="qTypeBadge">🔢 Tebak Nomor</div>
+    <div class="question-text" id="questionText">Memuat soal...</div>
+    <div class="question-sub" id="questionSub">Pilih jawaban yang paling tepat</div>
+    <div class="options-grid" id="optionsGrid"></div>
+    <hr class="card-divider">
+    <div class="progress-text" id="progressText">—</div>
+  </div>
+
+</div>
+
+<!-- Result sheet -->
+<div class="result-overlay" id="resultOverlay">
+  <div class="result-sheet">
+    <span class="result-icon" id="resultIcon">🎉</span>
+    <div class="result-title" id="resultTitle">Benar!</div>
+    <div class="result-desc" id="resultDesc"></div>
+    <div class="result-answer-box">
+      <div class="rab-label">Jawaban Benar</div>
+      <div class="rab-answer" id="correctAnswerText"></div>
+    </div>
+    <button class="try-again-btn" onclick="nextQuestion()">✨ Test Lagi</button>
+  </div>
+</div>
+
+<div class="confetti-container" id="confettiContainer"></div>
+
+<script src="surahs.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
